@@ -1,0 +1,18 @@
+{
+  "productionBuildings": [
+    {
+      "id": "solarPanel",
+      "processes": [
+        {
+          "id": "photoelectricEffect",
+          "input": [],
+          "output": [
+            {
+              "id": "electricity"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
