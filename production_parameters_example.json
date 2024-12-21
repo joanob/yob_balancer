@@ -1,0 +1,28 @@
+{
+  "productionBuildingParameters": [
+    {
+      "id": "",
+      "processes": [
+        {
+          "id": "",
+          "minTime": 0,
+          "maxTime": 0,
+          "input": [
+            {
+              "id": "",
+              "min": 0,
+              "max": 0
+            }
+          ],
+          "output": [
+            {
+              "id": "",
+              "min": 0,
+              "max": 0
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
