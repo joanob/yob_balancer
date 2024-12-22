@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 )
 
@@ -34,8 +33,6 @@ func LoadResourcesParameters() []ResourceParameter {
 	}
 
 	resourceParameters = jsonResourcesParameters.ResourcesParameters
-
-	fmt.Println(jsonResourcesParameters.ResourcesParameters)
 
 	return jsonResourcesParameters.ResourcesParameters
 }

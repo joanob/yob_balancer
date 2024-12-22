@@ -3,10 +3,10 @@ package main
 func main() {
 	//resources := LoadResources()
 	//productionBuilidings := LoadProductionBuildings()
-	resourcesParameters := LoadResourcesParameters()
+	LoadResourcesParameters()
 	productionBuildingsParameters := LoadProductionBuildingsParameters()
 
-	productionOutput := balancer(resourcesParameters, productionBuildingsParameters)
+	productionOutput := balancer(productionBuildingsParameters)
 
 	SaveOutput(productionOutput)
 }

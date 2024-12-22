@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 )
 
@@ -43,8 +42,6 @@ func LoadProductionBuildingsParameters() []ProductionBuildingParameters {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(jsonProductionBuildingParameters.ProductionBuildingParameters)
 
 	return jsonProductionBuildingParameters.ProductionBuildingParameters
 }

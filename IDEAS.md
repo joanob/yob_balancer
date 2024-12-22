@@ -1,0 +1,5 @@
+# Ideas
+
+## Resources
+
+## Production buildings

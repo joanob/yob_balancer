@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"os"
 )
 
@@ -28,8 +27,6 @@ func LoadResources() []Resource {
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(jsonResources.Resources)
 
 	return jsonResources.Resources
 }

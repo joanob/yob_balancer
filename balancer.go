@@ -11,14 +11,13 @@ type ProcessResource struct {
 	Price    int
 }
 
-func balancer(resourcesParameters []ResourceParameter, productionBuildingsParameters []ProductionBuildingParameters) []ProductionOutput {
+func balancer(productionBuildingsParameters []ProductionBuildingParameters) []ProductionOutput {
 	// For all production buildings, check all possibilities
 	// Check all inputs and output for all times and its prices
 
 	var output []ProductionOutput
 	var productionOutput ProductionOutput
 	var productionProcessOutput ProductionProcessOutput
-	//var productionProcessResourceOutput []ProductionResourceOutput
 
 	for _, productionBuilding := range productionBuildingsParameters {
 		productionOutput.Id = productionBuilding.Id
@@ -26,20 +25,32 @@ func balancer(resourcesParameters []ResourceParameter, productionBuildingsParame
 
 		for _, process := range productionBuilding.Processes {
 			productionProcessOutput.Id = process.Id
-			productionProcessOutput.Input = make([]ProductionResourceOutput, 0)
-			productionProcessOutput.Output = make([]ProductionResourceOutput, 0)
 
-			//combinations := getInputOutputCombinations(process)
+			combinations := getInputOutputCombinations(process)
 
-			for time := process.MinTime; time < process.MaxTime; time++ {
-				productionProcessOutput.Time = time
+			for _, combination := range combinations {
+				inputPrice := 0
+				outputPrice := 0
 
-				// First, get all combinations of inputs and outputs with quantities and prices
+				productionProcessOutput.Input = make([]ProductionResourceOutput, 0)
+				for _, inputCombination := range combination.Input {
+					productionProcessOutput.Input = append(productionProcessOutput.Input, ProductionResourceOutput(inputCombination))
+					inputPrice += inputCombination.Price * inputCombination.Quantity
+				}
 
-				// Calculate price of inputs, calculate price of outputs and compute
+				productionProcessOutput.Output = make([]ProductionResourceOutput, 0)
+				for _, outputCombination := range combination.Output {
+					productionProcessOutput.Output = append(productionProcessOutput.Input, ProductionResourceOutput(outputCombination))
+					outputPrice += outputCombination.Price * outputCombination.Quantity
+				}
+
+				for time := process.MinTime; time <= process.MaxTime; time++ {
+					productionProcessOutput.Time = time
+					productionProcessOutput.ProfitPerHour = float64(3600 / time * (outputPrice - inputPrice))
+
+					productionOutput.Processes = append(productionOutput.Processes, productionProcessOutput)
+				}
 			}
-
-			productionOutput.Processes = append(productionOutput.Processes, productionProcessOutput)
 		}
 
 		output = append(output, productionOutput)
@@ -51,24 +62,23 @@ func balancer(resourcesParameters []ResourceParameter, productionBuildingsParame
 func getInputOutputCombinations(process ProductionProcessesParameters) []ProcessInputOutputCombination {
 	combinations := make([]ProcessInputOutputCombination, 0)
 
-	// Primero obtener para cada input y output sus combinaciones particulares
-	// Si un input tiene una cantidad entre 1 y 3 y un precio entre 1 y 5, las combinaciones son
-	// 1/1, 1/2, 1/3, 1/4, 1/5, 2/1, 2/
+	inputCombinations := make([][]ProcessResource, 0)
+	inputCombinations = getResourcesCombinations(inputCombinations, process.Input)
 
-	//inputCombinations := getResourcesCombinations(process.Input)
-	//outputCombinations := getResourcesCombinations(process.Output)
+	outputCombinations := make([][]ProcessResource, 0)
+	outputCombinations = getResourcesCombinations(outputCombinations, process.Output)
 
-	//if len(inputCombinations) != 0 {
-	/* for _, input := range inputCombinations {
-		for _, output := range outputCombinations {
-			combinations = append(combinations, ProcessInputOutputCombination{Input: make([]ProcessResource, 0), Output: outputCombinations})
-
+	if len(inputCombinations) != 0 {
+		for _, input := range inputCombinations {
+			for _, output := range outputCombinations {
+				combinations = append(combinations, ProcessInputOutputCombination{Input: input, Output: output})
+			}
 		}
-	} */
-
-	//} else {
-	//7	combinations = append(combinations, ProcessInputOutputCombination{Input: make([]ProcessResource, 0), Output: outputCombinations})
-	//}
+	} else {
+		for _, output := range outputCombinations {
+			combinations = append(combinations, ProcessInputOutputCombination{Input: make([]ProcessResource, 0), Output: output})
+		}
+	}
 
 	return combinations
 }

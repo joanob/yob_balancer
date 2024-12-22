@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"testing"
 )
 
@@ -50,8 +49,6 @@ func Test_GetResourceCombinations(t *testing.T) {
 			resourceParameters = tC.resourceParameters
 
 			combinations := getResourceCombinations(tC.resource)
-
-			fmt.Println(combinations)
 
 			if len(combinations) != tC.expectedLength {
 				t.Error(combinations)
@@ -120,8 +117,6 @@ func Test_GetResourcesCombinations(t *testing.T) {
 			combinations := make([][]ProcessResource, 0)
 
 			combinations = getResourcesCombinations(combinations, tC.resources)
-
-			fmt.Println(combinations)
 
 			if len(combinations) != tC.expectedLength {
 				t.Error(len(combinations))

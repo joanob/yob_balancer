@@ -31,8 +31,10 @@ type JSONOutput struct {
 }
 
 func SaveOutput(production []ProductionOutput) {
+	dirname := "output"
 	now := time.Now()
-	filename := fmt.Sprintf("%v%v%v_%v%v%v.json", now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
+	filename := fmt.Sprintf("%v/%v%v%v_%v%v%v.json", dirname, now.Year(), now.Month(), now.Day(), now.Hour(), now.Minute(), now.Second())
+	os.Mkdir(dirname, os.ModeAppend)
 	file, err := os.Create(filename)
 	if err != nil {
 		panic(err)
