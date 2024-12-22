@@ -62,11 +62,10 @@ func Test_GetResourceCombinations(t *testing.T) {
 
 func Test_GetResourcesCombinations(t *testing.T) {
 	testCases := []struct {
-		desc                string
-		resources           []ProductionResourceParameters
-		resourceParameters  []ResourceParameter
-		expectedLength      int
-		expectedInnerLength int
+		desc               string
+		resources          []ProductionResourceParameters
+		resourceParameters []ResourceParameter
+		expectedLength     int
 	}{
 		{
 			desc: "One resource",
@@ -84,8 +83,34 @@ func Test_GetResourcesCombinations(t *testing.T) {
 					Max: 1,
 				},
 			},
-			expectedLength:      5,
-			expectedInnerLength: 1,
+			expectedLength: 5,
+		},
+		{
+			desc: "Two resources",
+			resources: []ProductionResourceParameters{
+				{
+					Id:  "electricity",
+					Min: 1,
+					Max: 2,
+				}, {
+					Id:  "water",
+					Min: 1,
+					Max: 2,
+				},
+			},
+			resourceParameters: []ResourceParameter{
+				{
+					Id:  "electricity",
+					Min: 1,
+					Max: 1,
+				},
+				{
+					Id:  "water",
+					Min: 2,
+					Max: 5,
+				},
+			},
+			expectedLength: 16,
 		},
 	}
 	for _, tC := range testCases {
@@ -99,7 +124,7 @@ func Test_GetResourcesCombinations(t *testing.T) {
 			fmt.Println(combinations)
 
 			if len(combinations) != tC.expectedLength {
-				t.Error(combinations)
+				t.Error(len(combinations))
 			}
 		})
 	}
