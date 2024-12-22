@@ -16,6 +16,8 @@ type JSONResourcesParameters struct {
 	ResourcesParameters []ResourceParameter `json:"resourcesParameters"`
 }
 
+var resourceParameters []ResourceParameter
+
 func LoadResourcesParameters() []ResourceParameter {
 	file, err := os.Open("resources_parameters.json")
 	if err != nil {
@@ -31,7 +33,18 @@ func LoadResourcesParameters() []ResourceParameter {
 		panic(err)
 	}
 
+	resourceParameters = jsonResourcesParameters.ResourcesParameters
+
 	fmt.Println(jsonResourcesParameters.ResourcesParameters)
 
 	return jsonResourcesParameters.ResourcesParameters
+}
+
+func getResourceParameters(resourceId string) ResourceParameter {
+	for _, res := range resourceParameters {
+		if res.Id == resourceId {
+			return res
+		}
+	}
+	return ResourceParameter{}
 }

@@ -1,8 +1,12 @@
 package main
 
 func main() {
-	LoadResources()
-	LoadProductionBuildings()
-	LoadResourcesParameters()
-	LoadProductionBuildingsParameters()
+	//resources := LoadResources()
+	//productionBuilidings := LoadProductionBuildings()
+	resourcesParameters := LoadResourcesParameters()
+	productionBuildingsParameters := LoadProductionBuildingsParameters()
+
+	productionOutput := balancer(resourcesParameters, productionBuildingsParameters)
+
+	SaveOutput(productionOutput)
 }
